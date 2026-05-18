@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Antoine Vergnaud — Finance & Data</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F8F6F1;
+      --bg-card: #FFFFFF;
+      --text: #1A1A18;
+      --text-muted: #6B6B65;
+      --accent: #1B4332;
+      --accent-light: #D8F3DC;
+      --accent-mid: #2D6A4F;
+      --border: rgba(26,26,24,0.10);
+      --tag-bg: #E9F5EE;
+      --tag-text: #1B4332;
+      --gold: #B5830A;
+      --gold-bg: #FDF3DC;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 3rem;
+      background: rgba(248,246,241,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 14px; font-weight: 500; color: var(--text-muted);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 8rem 3rem 4rem;
+      max-width: 1100px; margin: 0 auto;
+      position: relative;
+    }
+    .hero-content { max-width: 680px; }
+    .hero-tag {
+      display: inline-block;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 12px; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 100px;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 6vw, 5rem);
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent-mid);
+    }
+    .hero-desc {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+    .btn-primary {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.8rem 1.8rem;
+      border-radius: 100px;
+      text-decoration: none;
+      font-size: 15px; font-weight: 500;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--accent-mid); transform: translateY(-1px); }
+    .btn-secondary {
+      display: inline-block;
+      color: var(--text);
+      padding: 0.8rem 1.8rem;
+      border-radius: 100px;
+      border: 1.5px solid var(--border);
+      text-decoration: none;
+      font-size: 15px; font-weight: 500;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--accent); background: var(--accent-light); }
+
+    .hero-floater {
+      position: absolute; right: 3rem; top: 50%;
+      transform: translateY(-50%);
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .floater-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1rem 1.25rem;
+      min-width: 200px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .floater-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 4px; }
+    .floater-value { font-family: 'DM Mono', monospace; font-size: 20px; color: var(--accent); font-weight: 500; }
+    .floater-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    /* SECTION BASE */
+    section { padding: 5rem 3rem; max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.1; margin-bottom: 1rem;
+    }
+    .section-desc { color: var(--text-muted); max-width: 560px; font-size: 1.05rem; margin-bottom: 3rem; }
+
+    /* SKILLS */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.25rem 1.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .skill-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .skill-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .skill-name { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+    .skill-level { font-size: 13px; color: var(--text-muted); }
+    .skill-bar { height: 4px; background: var(--accent-light); border-radius: 2px; margin-top: 0.75rem; overflow: hidden; }
+    .skill-bar-fill { height: 100%; background: var(--accent); border-radius: 2px; }
+
+    /* PROJECTS */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px; padding: 2rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex; flex-direction: column;
+    }
+    .project-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.10); }
+    .project-type {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 100px; display: inline-block; margin-bottom: 1rem;
+    }
+    .type-market { background: var(--accent-light); color: var(--accent); }
+    .type-corp { background: var(--gold-bg); color: var(--gold); }
+    .project-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.35rem; margin-bottom: 0.75rem; line-height: 1.2;
+    }
+    .project-desc { color: var(--text-muted); font-size: 14px; line-height: 1.6; flex-grow: 1; margin-bottom: 1.25rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.25rem; }
+    .tag {
+      background: var(--tag-bg); color: var(--tag-text);
+      font-family: 'DM Mono', monospace;
+      font-size: 12px; padding: 3px 10px; border-radius: 4px;
+    }
+    .project-link {
+      font-size: 13px; font-weight: 500; color: var(--accent);
+      text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .project-link:hover { text-decoration: underline; }
+
+    /* THOUGHTS */
+    .thoughts-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .thought-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.75rem 2rem;
+      display: flex; gap: 2rem; align-items: flex-start;
+      transition: transform 0.2s;
+    }
+    .thought-card:hover { transform: translateX(4px); }
+    .thought-date { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-muted); white-space: nowrap; padding-top: 4px; min-width: 70px; }
+    .thought-title { font-weight: 600; font-size: 16px; margin-bottom: 6px; }
+    .thought-excerpt { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+    .thought-tag {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--accent); background: var(--accent-light);
+      padding: 3px 10px; border-radius: 100px; display: inline-block; margin-top: 0.75rem;
+    }
+
+    /* CONTACT */
+    .contact-wrapper {
+      background: var(--accent);
+      border-radius: 28px; padding: 4rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+    }
+    .contact-text h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.5rem; color: #fff; margin-bottom: 0.75rem;
+    }
+    .contact-text p { color: rgba(255,255,255,0.7); font-size: 1.05rem; max-width: 400px; }
+    .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+    .contact-link {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,0.12);
+      color: #fff; text-decoration: none;
+      padding: 0.75rem 1.5rem; border-radius: 100px;
+      font-size: 14px; font-weight: 500;
+      transition: background 0.2s;
+    }
+    .contact-link:hover { background: rgba(255,255,255,0.22); }
+
+    /* FOOTER */
+    footer {
+      text-align: center; padding: 2rem 3rem;
+      font-size: 13px; color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* DIVIDER */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0 3rem; }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { padding: 6rem 1.5rem 3rem; }
+      .hero-floater { display: none; }
+      section { padding: 3rem 1.5rem; }
+      .contact-wrapper { padding: 2rem; }
+      .thought-card { flex-direction: column; gap: 0.5rem; }
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-tag    { animation: fadeUp 0.5s ease both; }
+    .hero h1     { animation: fadeUp 0.5s 0.1s ease both; }
+    .hero-desc   { animation: fadeUp 0.5s 0.2s ease both; }
+    .hero-actions{ animation: fadeUp 0.5s 0.3s ease both; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">AV.portfolio</a>
+  <ul class="nav-links">
+    <li><a href="#competences">Compétences</a></li>
+    <li><a href="#projets">Projets</a></li>
+    <li><a href="#reflexions">Réflexions</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div style="max-width:1100px; margin: 0 auto; position: relative;">
+  <div class="hero">
+    <div class="hero-content">
+      <span class="hero-tag">Disponible pour un stage</span>
+      <h1>Antoine<br><em>Vergnaud</em></h1>
+      <p class="hero-desc">
+        Étudiant passionné par la finance, j'allie curiosité analytique et maîtrise des outils de programmation pour explorer aussi bien les marchés financiers que la finance d'entreprise.
+      </p>
+      <div class="hero-actions">
+        <a href="#projets" class="btn-primary">Voir mes projets →</a>
+        <a href="#contact" class="btn-secondary">Me contacter</a>
+      </div>
+    </div>
+    <div class="hero-floater">
+      <div class="floater-card">
+        <div class="floater-label">Domaine principal</div>
+        <div class="floater-value">Finance</div>
+        <div class="floater-sub">Marchés & Entreprise</div>
+      </div>
+      <div class="floater-card">
+        <div class="floater-label">Langages</div>
+        <div class="floater-value">Py + VBA</div>
+        <div class="floater-sub">Analyse & automatisation</div>
+      </div>
+      <div class="floater-card">
+        <div class="floater-label">Recherche</div>
+        <div class="floater-value">Stage</div>
+        <div class="floater-sub">2025 — 6 mois</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider" />
+
+<!-- COMPETENCES -->
+<section id="competences">
+  <div class="section-label">// compétences</div>
+  <h2 class="section-title">Ce que je maîtrise</h2>
+  <p class="section-desc">Des outils techniques au service de l'analyse financière.</p>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-icon">🐍</div>
+      <div class="skill-name">Python</div>
+      <div class="skill-level">Analyse de données, automatisation</div>
+      <div class="skill-bar"><div class="skill-bar-fill" style="width:80%"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">📊</div>
+      <div class="skill-name">VBA / Excel</div>
+      <div class="skill-level">Macros, modélisation financière</div>
+      <div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">📈</div>
+      <div class="skill-name">Finance de marché</div>
+      <div class="skill-level">Pricing, gestion de portefeuille</div>
+      <div class="skill-bar"><div class="skill-bar-fill" style="width:70%"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🏢</div>
+      <div class="skill-name">Finance d'entreprise</div>
+      <div class="skill-level">Valorisation, M&A, LBO</div>
+      <div class="skill-bar"><div class="skill-bar-fill" style="width:70%"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🧮</div>
+      <div class="skill-name">Statistiques</div>
+      <div class="skill-level">Régression, tests, séries temporelles</div>
+      <div class="skill-bar"><div class="skill-bar-fill" style="width:65%"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🌐</div>
+      <div class="skill-name">Langues</div>
+      <div class="skill-level">Français natif · Anglais courant</div>
+      <div class="skill-bar"><div class="skill-bar-fill" style="width:90%"></div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- PROJETS -->
+<section id="projets">
+  <div class="section-label">// projets</div>
+  <h2 class="section-title">Mes réalisations</h2>
+  <p class="section-desc">Des projets concrets mêlant finance et programmation. À remplacer par vos vrais projets au fil du temps.</p>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <span class="project-type type-market">Finance de marché</span>
+      <h3 class="project-title">Backtester de stratégie momentum</h3>
+      <p class="project-desc">Outil Python permettant de tester une stratégie de momentum sur des actions du CAC 40. Intègre le calcul des rendements, du Sharpe ratio et la visualisation des performances cumulées.</p>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">pandas</span>
+        <span class="tag">matplotlib</span>
+        <span class="tag">yfinance</span>
+      </div>
+      <a href="https://github.com/" class="project-link">Voir le code →</a>
+    </div>
+
+    <div class="project-card">
+      <span class="project-type type-corp">Finance d'entreprise</span>
+      <h3 class="project-title">Modèle DCF automatisé sous Excel/VBA</h3>
+      <p class="project-desc">Macro VBA qui génère automatiquement un modèle DCF complet à partir des données financières d'une entreprise. Inclut une analyse de sensibilité sur le WACC et le taux de croissance terminal.</p>
+      <div class="project-tags">
+        <span class="tag">VBA</span>
+        <span class="tag">Excel</span>
+        <span class="tag">DCF</span>
+        <span class="tag">Sensibilité</span>
+      </div>
+      <a href="https://github.com/" class="project-link">Voir le code →</a>
+    </div>
+
+    <div class="project-card">
+      <span class="project-type type-market">Finance de marché</span>
+      <h3 class="project-title">Visualisateur de corrélations intraday</h3>
+      <p class="project-desc">Script Python qui récupère des données intraday sur plusieurs actifs et calcule des matrices de corrélation glissantes. Utile pour détecter des ruptures de corrélations en période de stress.</p>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">seaborn</span>
+        <span class="tag">API</span>
+        <span class="tag">Rolling window</span>
+      </div>
+      <a href="https://github.com/" class="project-link">Voir le code →</a>
+    </div>
+
+    <div class="project-card">
+      <span class="project-type type-corp">Finance d'entreprise</span>
+      <h3 class="project-title">Analyse comparative de multiples boursiers</h3>
+      <p class="project-desc">Programme Python qui scrap et structure les multiples de valorisation (EV/EBITDA, P/E, P/B) d'un panel de sociétés comparables pour faciliter l'analyse peer-to-peer.</p>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">BeautifulSoup</span>
+        <span class="tag">Multiples</span>
+        <span class="tag">Comps</span>
+      </div>
+      <a href="https://github.com/" class="project-link">Voir le code →</a>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- REFLEXIONS -->
+<section id="reflexions">
+  <div class="section-label">// réflexions</div>
+  <h2 class="section-title">Ce que je pense</h2>
+  <p class="section-desc">Notes, analyses et curiosités sur la finance et les marchés. Un espace libre pour explorer des idées.</p>
+  <div class="thoughts-list">
+
+    <div class="thought-card">
+      <div class="thought-date">À venir</div>
+      <div>
+        <div class="thought-title">La courbe des taux comme outil de prédiction — mythe ou réalité ?</div>
+        <p class="thought-excerpt">L'inversion de la courbe des taux est souvent présentée comme le signal infaillible d'une récession. Mais dans quelle mesure ce signal est-il fiable dans un contexte de QE massif et de taux négatifs ?</p>
+        <span class="thought-tag">Finance de marché</span>
+      </div>
+    </div>
+
+    <div class="thought-card">
+      <div class="thought-date">À venir</div>
+      <div>
+        <div class="thought-title">Peut-on automatiser une analyse financière complète avec Python ?</div>
+        <p class="thought-excerpt">Retour d'expérience sur ma tentative de construire un pipeline d'analyse fondamentale automatisé, depuis la collecte de données jusqu'à la génération d'un rapport de valorisation.</p>
+        <span class="thought-tag">Tech & Finance</span>
+      </div>
+    </div>
+
+    <div class="thought-card">
+      <div class="thought-date">À venir</div>
+      <div>
+        <div class="thought-title">M&A en période de taux hauts : les LBO sont-ils morts ?</div>
+        <p class="thought-excerpt">La remontée des taux a profondément transformé la dynamique des opérations de Private Equity. Analyse des ajustements de structuration observés depuis 2022 et des implications pour les valorisations.</p>
+        <span class="thought-tag">Finance d'entreprise</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- CONTACT -->
+<section id="contact" style="padding-top: 4rem; padding-bottom: 5rem;">
+  <div class="contact-wrapper">
+    <div class="contact-text">
+      <h2>Travaillons ensemble</h2>
+      <p>Je suis à la recherche d'un stage en finance de marché ou finance d'entreprise. N'hésitez pas à me contacter.</p>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:antoine.vergnaud@email.com" class="contact-link">✉ antoine.vergnaud@email.com</a>
+      <a href="https://linkedin.com" class="contact-link">in LinkedIn</a>
+      <a href="https://github.com" class="contact-link">⌥ GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Antoine Vergnaud — Fait à la main, avec curiosité.</p>
+</footer>
+
+</body>
+</html>
